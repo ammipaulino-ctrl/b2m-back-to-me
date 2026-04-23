@@ -149,7 +149,7 @@ const T = {
     ["🏛️","YOUR COUNTRY'S LEADER"],
     ["📰","THE HEADLINE THAT WEEK"],
     ["💰","WHAT THINGS COST"],
-    ]
+    ],
     gateTxt:'"Your story continues.\nChapter II is ready."',
     gateBody:"The cultural world of your birth, the era that shaped you, and where your story leads next.",
     gateCta:"CONTINUE MY STORY",
