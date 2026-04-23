@@ -292,7 +292,7 @@ export default function B2M() {
   async function answerCity(cityVal) {
     const c = cityVal.trim() || "";
     setCity(c);
-    const story = await callAPI(2, { city: c });
+    const story = await callAPI(2,<h2 classname= "font-bold text-xl"> { city: c } </h2>);
     if (story) { setLayers(p => ({...p, 2: story})); setActiveL(2); }
   }
 
