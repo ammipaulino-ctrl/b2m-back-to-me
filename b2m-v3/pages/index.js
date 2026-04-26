@@ -1,12 +1,11 @@
 import { useState, memo } from "react";
 
 // ─── STARS (memoized — never re-renders) ─────────────────────────────────────
-/* ─── STARS ─── */
 const STARS = Array.from({ length: 60 }, (_, i) => ({
-id: i,
-top: ((Math.sin(i * 127.1) + 1) / 2) * 100,
-left: ((Math.cos(i * 97.3) + 1) / 2) * 100,
-size: i % 4 === 0 ? 3 : i % 3 === 0 ? 2 : 1.5,
+  id: i,
+  top: ((Math.sin(i * 127.1) + 1) / 2) * 100,
+  left: ((Math.cos(i * 97.3) + 1) / 2) * 100,
+  size: i % 4 === 0 ? 3 : i % 3 === 0 ? 2 : 1.5,
   st: `${2.5 + (i % 6)}s`,
   sd: `${(i * 0.29) % 8}s`,
   so: 0.25 + (i % 5) * 0.15,
@@ -115,20 +114,8 @@ function getGen(y, lang) {
 }
 
 // ─── COPY ─────────────────────────────────────────────────────────────────────
-const StarField = memo(() => (
-  <div className="star-field">
-    {STARS.map(s => (
-      <div key={s.id} className="star" style={{
-        top: `${s.top}%`, left: `${s.left}%`,
-        width: s.size, height: s.size
-      }} />
-    ))}
-  </div>
-));
-
-/* ─── COPY ─── */
 const T = {
-en: {
+  en: {
     logo:"B2M · BACK TO ME",
     tagline:"YOUR STORY IN THE WORLD",
     welcome:["Do you want to see your","story","in the world?"],
@@ -156,13 +143,7 @@ en: {
     ch2head:"A glimpse of what awaits in Chapter II",
     ch2title:"The Cultural World You Were Born Into",
     ch2sub:"Unlock to discover the music, the faces in power, and the headlines that surrounded your arrival.",
-    ch2labels:[
-    ["🎵","THE #1 SONG THAT WEEK"],
-    ["📺","THE MOST WATCHED SHOW"],
-    ["🏛️","YOUR COUNTRY'S LEADER"],
-    ["📰","THE HEADLINE THAT WEEK"],
-    ["💰","WHAT THINGS COST"],
-    ],
+    ch2labels:["🎵","THE #1 SONG THAT WEEK"],["📺","THE MOST WATCHED SHOW"],["🏛️","YOUR COUNTRY'S LEADER"],["📰","THE HEADLINE THAT WEEK"],["💰","WHAT THINGS COST"],
     gateTxt:'"Your story continues.\nChapter II is ready."',
     gateBody:"The cultural world of your birth, the era that shaped you, and where your story leads next.",
     gateCta:"CONTINUE MY STORY",
@@ -179,11 +160,8 @@ en: {
     scta:"SHARE MY TIMELINE",
     back:"← BACK",
     err:"Please enter your date of birth.",
-    gateTxt: "Your story continues...",
-    gateBody: "Discover the world that welcomed you.",
-    gateCta: "CONTINUE MY STORY"
-},
-es: {
+  },
+  es: {
     logo:"B2M · DE VUELTA A MÍ",
     tagline:"TU HISTORIA EN EL MUNDO",
     welcome:["¿Quieres ver tu","historia","en el mundo?"],
@@ -228,10 +206,6 @@ es: {
     back:"← VOLVER",
     err:"Por favor ingresa tu fecha de nacimiento.",
   },
-    gateTxt: "Tu historia continúa...",
-    gateBody: "Descubre el mundo que te recibió.",
-    gateCta: "CONTINUAR MI HISTORIA"
-  }
 };
 
 const CH2_ICONS = [
@@ -243,7 +217,6 @@ const CH2_ICONS = [
 ];
 
 // ─── APP ─────────────────────────────────────────────────────────────────────
-/* ─── APP ─── */
 export default function B2M() {
   const [lang, setLang]     = useState(null);
   const [screen, setScreen] = useState("welcome");
@@ -313,7 +286,7 @@ export default function B2M() {
   async function answerCity(cityVal) {
     const c = cityVal.trim() || "";
     setCity(c);
-    const story = await callAPI(2,<h2 classname= "font-bold text-xl"> { city: c } </h2>);
+    const story = await callAPI(2, { city: c });
     if (story) { setLayers(p => ({...p, 2: story})); setActiveL(2); }
   }
 
@@ -343,15 +316,12 @@ export default function B2M() {
     setActiveL(0); setCity(""); setNoParents(false); setDob("");
     setGen(""); setCh2data(null);
   }
-  const [lang, setLang] = useState("en");
 
   const genDisplay = gen || g;
-  const sampleText = `# El Día Que Llegaste
-Llegaste un martes de enero. El mundo no se detuvo, pero algo cambió.`;
 
-return (
-<>
-<StarField />
+  return (
+    <>
+      <StarField />
 
       {lang && screen !== "welcome" && (
         <button className="back-btn" onClick={reset}>{t.back}</button>
@@ -407,21 +377,7 @@ return (
           </div>
           {err && <p style={{ color:"#C97070", fontSize:13, marginBottom:16, fontStyle:"italic" }}>{err}</p>}
           <button className="btn-outline fu d4" onClick={startStory}><span>{t.recon}</span></button>
-      <div className="page">
-
-        {/* STORY FIX (# TITLES) */}
-        <div className="narrative">
-          {sampleText.split("\n").map((line, i) => {
-            if (line.startsWith("#")) {
-              return (
-                <h2 key={i} style={{ fontWeight:"bold", marginBottom:10 }}>
-                  {line.replace("#","").trim()},
-                </h2>
-              );
-            }
-            return <p key={i}>{line}</p>;
-          })}
-</div>
+        </div>
       )}
 
       {/* ══ STORY ══ */}
@@ -468,12 +424,9 @@ return (
               <p className="load-sub">{t.loading}</p>
             </div>
           )}
-        {/* PAYWALL */}
-        <div className="gate">
 
           {/* Questions */}
           {!loading && layers[1] && !layers[2] && <CityQuestion t={t} onSubmit={answerCity} />}
-          <p className="gate-title">{T[lang].gateTxt}</p>
 
           {!loading && layers[2] && !layers[3] && (
             <div className="q-wrap">
@@ -486,7 +439,6 @@ return (
               </div>
             </div>
           )}
-          <p className="gate-body">{T[lang].gateBody}</p>
 
           {!loading && layers[3] && !layers[4] && (
             <ParentsQuestion t={t}
@@ -566,15 +518,6 @@ return (
               ))}
             </div>
           )}
-          <button
-            className="btn-gold"
-            onClick={() => {
-              localStorage.setItem("b2m_fake_payment","clicked");
-              alert("Test Mode: Payment flow coming soon.");
-            }}
-          >
-            {T[lang].gateCta}
-          </button>
 
           {/* Share */}
           {layers[1] && (
@@ -586,38 +529,9 @@ return (
               <button className="btn-ghost" style={{ marginTop:0 }}>{t.scta}</button>
             </div>
           )}
-          <p className="gate-price">
-            $4.99 one-time · Lifetime access
-          </p>
 
-          {/* DISCLAIMER */}
-          <p style={{
-            marginTop:12,
-            fontSize:11,
-            color:"#6B6050",
-            textAlign:"center"
-          }}>
-            {lang === "es"
-              ? "Esta experiencia es solo para fines de entretenimiento y reflexión. Parte del contenido puede no ser exacto."
-              : "This experience is for entertainment and reflection purposes only. Content may not be historically exact."}
-          </p>
-
-          {/* PRIVACY */}
-          <p style={{
-            marginTop:6,
-            fontSize:10,
-            color:"#5A5145",
-            textAlign:"center"
-          }}>
-            {lang === "es"
-              ? "No almacenamos ni compartimos tus datos personales."
-              : "We do not store or share your personal data."}
-          </p>
-
-</div>
+        </div>
       )}
-
-      </div>
-</>
-);
+    </>
+  );
 }
