@@ -113,6 +113,42 @@ function getGen(y, lang) {
   return g.find(([max]) => y < max)[1];
 }
 
+function renderNarrative(text) {
+  if (!text) return null;
+
+  return String(text).split("\n").map((line, i) => {
+    const clean = line.trim();
+
+    if (!clean) return <br key={i} />;
+
+    if (clean.startsWith("#")) {
+      return (
+        <h2
+          key={i}
+          className="narrative-heading"
+          style={{
+            fontFamily:"'Cormorant Garamond',serif",
+            fontSize:"clamp(30px,6vw,44px)",
+            fontWeight:700,
+            color:"#E8D6A3",
+            lineHeight:1.25,
+            margin:"28px 0 16px",
+            textAlign:"center"
+          }}
+        >
+          {clean.replace(/^#+/, "").trim()},
+        </h2>
+      );
+    }
+
+    return (
+      <p key={i} style={{ marginBottom:18 }}>
+        {clean}
+      </p>
+    );
+  });
+}
+
 // ─── COPY ─────────────────────────────────────────────────────────────────────
 const T = {
   en: {
@@ -150,10 +186,13 @@ const T = {
     ["📰","THE HEADLINE THAT WEEK"],
     ["💰","WHAT THINGS COST"],
     ],
-    gateTxt:'"Your story continues.\nChapter II is ready."',
-    gateBody:"The cultural world of your birth, the era that shaped you, and where your story leads next.",
-    gateCta:"CONTINUE MY STORY",
-    gateP:"$9.99 / month · Cancel anytime",
+    gateTxt:'"Your story does not end here.\nChapter II is ready."',
+    gateBody:"Discover the world that welcomed you, the culture that surrounded your birth, and the details that make your timeline feel alive.",
+    gateCta:"UNLOCK THE REST OF MY STORY",
+    gateP:"$4.99 one-time · Lifetime access",
+    disclaimer:"This experience is for entertainment and reflection purposes only. Content may be creatively generated and not historically exact.",
+    privacy:"We do not store or share your personal data. Your inputs are only used to generate this experience.",
+    fakePayMsg:"Your story continues...\n\nFull access will be available very soon.\n\nYour interest has been recorded.",
     ctitle:"YOUR STORY · ALL CHAPTERS",
     chapters:[
       {num:"I",  name:"The Day You Arrived",     desc:"World context · Your origin",              active:true},
@@ -195,10 +234,13 @@ const T = {
     ch2head:"Un vistazo a lo que te espera en el Capítulo II",
     ch2title:"El Mundo Cultural en el Que Naciste",
     ch2sub:"Desbloquea para descubrir la música, los líderes y los titulares que rodearon tu llegada.",
-    gateTxt:'"Tu historia continúa.\nEl Capítulo II está listo."',
-    gateBody:"El mundo cultural de tu nacimiento, la era que te formó, y hacia dónde lleva tu historia.",
-    gateCta:"CONTINUAR MI HISTORIA",
-    gateP:"$9.99 / mes · Cancela cuando quieras",
+    gateTxt:'"Tu historia no termina aquí.\nEl Capítulo II está listo."',
+    gateBody:"Descubre el mundo que te recibió, la cultura que rodeó tu nacimiento y los detalles que hacen que tu línea de tiempo cobre vida.",
+    gateCta:"DESBLOQUEAR EL RESTO DE MI HISTORIA",
+    gateP:"$4.99 pago único · Acceso de por vida",
+    disclaimer:"Esta experiencia es solo para fines de entretenimiento y reflexión. Parte del contenido puede ser generado creativamente y no ser históricamente exacto.",
+    privacy:"No almacenamos ni compartimos tus datos personales. Tu información se usa solo para generar esta experiencia.",
+    fakePayMsg:"Tu historia continúa...\n\nEl acceso completo estará disponible muy pronto.\n\nTu interés ha sido registrado.",
     ctitle:"TU HISTORIA · TODOS LOS CAPÍTULOS",
     chapters:[
       {num:"I",  name:"El Día Que Llegaste",      desc:"Contexto mundial · Tu origen",                   active:true},
@@ -236,6 +278,7 @@ export default function B2M() {
   const [noParents, setNoParents] = useState(false);
   const [ch2data, setCh2data]   = useState(null);
   const [ch2loading, setCh2loading] = useState(false);
+  const [fakePaid, setFakePaid] = useState(false);
 
   const today = new Date().toISOString().split("T")[0];
   const t = lang ? T[lang] : T.en;
@@ -317,10 +360,21 @@ export default function B2M() {
     }
   }
 
+  function fakePaywallClick() {
+    try {
+      localStorage.setItem("b2m_fake_payment", "clicked");
+      localStorage.setItem("b2m_fake_payment_time", new Date().toISOString());
+      localStorage.setItem("b2m_fake_payment_lang", lang || "en");
+    } catch {}
+
+    setFakePaid(true);
+    alert(t.fakePayMsg);
+  }
+
   function reset() {
     setLang(null); setScreen("welcome"); setLayers({}); setErr("");
     setActiveL(0); setCity(""); setNoParents(false); setDob("");
-    setGen(""); setCh2data(null);
+    setGen(""); setCh2data(null); setFakePaid(false);
   }
 
   const genDisplay = gen || g;
@@ -419,7 +473,9 @@ export default function B2M() {
           {[1,2,3,4,5].map(n => layers[n] && (
             <div key={n} className="layer-wrap">
               <p className="layer-tag">{t.ll[n-1]}</p>
-              <p className="narrative">{layers[n]}</p>
+              <div className="narrative">
+                {renderNarrative(layers[n])}
+              </div>
             </div>
           ))}
 
@@ -501,10 +557,50 @@ export default function B2M() {
             <div className="gate">
               <p className="gate-title">{t.gateTxt}</p>
               <p className="gate-body">{t.gateBody}</p>
-              <button className="btn-gold" style={{ animation:"goldPulse 3s ease-in-out infinite" }}>
+              <button
+                className="btn-gold"
+                onClick={fakePaywallClick}
+                style={{ animation:"goldPulse 3s ease-in-out infinite" }}
+              >
                 {t.gateCta}
               </button>
               <p className="gate-price">{t.gateP}</p>
+
+              {fakePaid && (
+                <p style={{
+                  marginTop:10,
+                  fontSize:12,
+                  color:"#C9A96E",
+                  fontStyle:"italic",
+                  textAlign:"center"
+                }}>
+                  {lang === "es"
+                    ? "Intención de pago registrada para esta prueba."
+                    : "Purchase intent recorded for this test."}
+                </p>
+              )}
+
+              <p style={{
+                marginTop:12,
+                fontSize:11,
+                color:"#6B6050",
+                lineHeight:1.5,
+                maxWidth:320,
+                textAlign:"center"
+              }}>
+                {t.disclaimer}
+              </p>
+
+              <p style={{
+                marginTop:6,
+                fontSize:10,
+                color:"#5A5145",
+                lineHeight:1.4,
+                maxWidth:300,
+                textAlign:"center"
+              }}>
+                {t.privacy}
+              </p>
             </div>
           )}
 
