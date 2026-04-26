@@ -559,7 +559,8 @@ export default function B2M() {
               <p className="gate-body">{t.gateBody}</p>
               <button
                 className="btn-gold"
-                onClick={fakePaywallClick}
+                onClick={() => window.location.href = "https://buy.stripe.com/3cIbJ24OBaP0aqa7wsbo400"}
+
                 style={{ animation:"goldPulse 3s ease-in-out infinite" }}
               >
                 {t.gateCta}
