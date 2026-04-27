@@ -559,7 +559,7 @@ export default function B2M() {
               <p className="gate-body">{t.gateBody}</p>
               <button
                 className="btn-gold"
-                onClick={() => window.location.href = "https://buy.stripe.com/3cIbJ24OBaP0aqa7wsbo400"}
+                onClick={() => window.location.href = "https://dashboard.stripe.com/acct_1TQbU3Le2C9J1m4P/test/payment-links/create"}
 
                 style={{ animation:"goldPulse 3s ease-in-out infinite" }}
               >
