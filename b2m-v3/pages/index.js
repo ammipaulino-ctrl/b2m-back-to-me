@@ -560,68 +560,47 @@ export default function B2M() {
           )}
 
           {/* Gate — after layer 5 */}
-          {layers[5] && !loading && (
-            <div className="gate">
-              <p className="gate-title">{t.gateTxt}</p>
-              <p className="gate-body">{t.gateBody}</p>
-              <button
-                className="btn-gold"
-                onClick={() => {
-  localStorage.setItem("b2m_paid", "true");
-  window.location.href = "https://buy.stripe.com/test_7sY3cxa46cY25qe6m35Ne00";
-}}
+{layers[5] && !loading && (
+  <div className="gate">
+    <p className="gate-title">{t.gateTxt}</p>
+    <p className="gate-body">{t.gateBody}</p>
 
-                style={{ animation:"goldPulse 3s ease-in-out infinite" }}
-              >
-                {t.gateCta}
-              <button
-               className="btn-gold"
-               onClick={() => {
-               setUnlocked(true);
-               window.scrollTo({ top: 0, behavior: "smooth" });
-               }}
-               style={{ animation:"goldPulse 3s ease-in-out infinite" }}
-               >
-               {t.gateCta}
-              </button>
+    <button
+      className="btn-gold"
+      onClick={() => {
+        localStorage.setItem("b2m_paid", "true");
+        window.location.href = "https://buy.stripe.com/test_7sY3cxa46cY25qe6m35Ne00";
+      }}
+      style={{ animation:"goldPulse 3s ease-in-out infinite" }}
+    >
+      {t.gateCta}
+    </button>
 
-              {fakePaid && (
-                <p style={{
-                  marginTop:10,
-                  fontSize:12,
-                  color:"#C9A96E",
-                  fontStyle:"italic",
-                  textAlign:"center"
-                }}>
-                  {lang === "es"
-                    ? "Intención de pago registrada para esta prueba."
-                    : "Purchase intent recorded for this test."}
-                </p>
-              )}
+    <p className="gate-price">{t.gateP}</p>
 
-              <p style={{
-                marginTop:12,
-                fontSize:11,
-                color:"#6B6050",
-                lineHeight:1.5,
-                maxWidth:320,
-                textAlign:"center"
-              }}>
-                {t.disclaimer}
-              </p>
+    <p style={{
+      marginTop:12,
+      fontSize:11,
+      color:"#6B6050",
+      lineHeight:1.5,
+      maxWidth:320,
+      textAlign:"center"
+    }}>
+      {t.disclaimer}
+    </p>
 
-              <p style={{
-                marginTop:6,
-                fontSize:10,
-                color:"#5A5145",
-                lineHeight:1.4,
-                maxWidth:300,
-                textAlign:"center"
-              }}>
-                {t.privacy}
-              </p>
-            </div>
-          )}
+    <p style={{
+      marginTop:6,
+      fontSize:10,
+      color:"#5A5145",
+      lineHeight:1.4,
+      maxWidth:300,
+      textAlign:"center"
+    }}>
+      {t.privacy}
+    </p>
+  </div>
+)}
 
 {/* Chapter II Full — unlocked after payment/test */}
 {unlocked && (
