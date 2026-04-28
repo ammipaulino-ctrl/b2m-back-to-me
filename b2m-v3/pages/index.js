@@ -278,7 +278,7 @@ export default function B2M() {
   const [noParents, setNoParents] = useState(false);
   const [ch2data, setCh2data]   = useState(null);
   const [ch2loading, setCh2loading] = useState(false);
-  const [fakePaid, setFakePaid] = useState(false);
+  const [unlocked, setUnlocked] = useState(false);
 
   const today = new Date().toISOString().split("T")[0];
   const t = lang ? T[lang] : T.en;
@@ -564,8 +564,16 @@ export default function B2M() {
                 style={{ animation:"goldPulse 3s ease-in-out infinite" }}
               >
                 {t.gateCta}
+              <button
+               className="btn-gold"
+               onClick={() => {
+               setUnlocked(true);
+               window.scrollTo({ top: 0, behavior: "smooth" });
+               }}
+               style={{ animation:"goldPulse 3s ease-in-out infinite" }}
+               >
+               {t.gateCta}
               </button>
-              <p className="gate-price">{t.gateP}</p>
 
               {fakePaid && (
                 <p style={{
@@ -605,6 +613,95 @@ export default function B2M() {
             </div>
           )}
 
+{/* Chapter II Full — unlocked after payment/test */}
+{unlocked && (
+  <div className="ch2-preview" style={{ marginTop:40 }}>
+    <div className="ch2-header">
+      <p className="ch2-title">
+        {lang === "es"
+          ? "CAPÍTULO II · EL MUNDO QUE TE RECIBIÓ"
+          : "CHAPTER II · THE WORLD THAT WELCOMED YOU"}
+      </p>
+
+      <p style={{
+        fontFamily:"'Cormorant Garamond',serif",
+        fontSize:24,
+        fontStyle:"italic",
+        color:"#F0E6CC",
+        lineHeight:1.4,
+        marginBottom:8
+      }}>
+        {lang === "es"
+          ? "Mientras tú llegabas, el mundo también estaba contando una historia."
+          : "As you arrived, the world was telling its own story."}
+      </p>
+    </div>
+
+    {[
+      {
+        icon:"🎵",
+        titleEs:"La canción que sonaba",
+        titleEn:"The song that was playing",
+        textEs:"Mientras llegabas al mundo, una canción dominaba radios, hogares y memorias.",
+        textEn:"As you arrived, one song was filling radios, homes, and memories.",
+        value:"Coming soon"
+      },
+      {
+        icon:"📺",
+        titleEs:"Lo que la gente veía",
+        titleEn:"What people were watching",
+        textEs:"En las salas y conversaciones, algo capturaba la atención de millones.",
+        textEn:"In living rooms and conversations, something was capturing millions of eyes.",
+        value:"Coming soon"
+      },
+      {
+        icon:"🏛️",
+        titleEs:"Quién lideraba tu país",
+        titleEn:"Who was leading your country",
+        textEs:"El país que te recibió tenía una voz, un liderazgo y una dirección.",
+        textEn:"The country that welcomed you had a voice, a leadership, and a direction.",
+        value:"Coming soon"
+      },
+      {
+        icon:"📰",
+        titleEs:"El titular de esos días",
+        titleEn:"The headline of those days",
+        textEs:"Mientras tu familia vivía tu llegada, el mundo hablaba de otra historia.",
+        textEn:"While your family welcomed you, the world was talking about another story.",
+        value:"Coming soon"
+      },
+      {
+        icon:"💰",
+        titleEs:"Lo que costaba vivir",
+        titleEn:"What life used to cost",
+        textEs:"El mundo tenía otro precio, otro ritmo y otra forma de vivir.",
+        textEn:"The world had another price, another rhythm, and another way of living.",
+        value:"Coming soon"
+      }
+    ].map((item, i) => (
+      <div key={i} className="ch2-card" style={{ marginBottom:14 }}>
+        <span className="ch2-card-icon">{item.icon}</span>
+        <div className="ch2-card-info">
+          <p className="ch2-card-label">
+            {lang === "es" ? item.titleEs : item.titleEn}
+          </p>
+          <p style={{ color:"#C8B888", fontSize:14, lineHeight:1.6 }}>
+            {lang === "es" ? item.textEs : item.textEn}
+          </p>
+          <p className="ch2-card-value">{item.value}</p>
+        </div>
+      </div>
+    ))}
+
+    <div className="gate" style={{ marginTop:28 }}>
+      <p className="gate-title">
+        {lang === "es"
+          ? "Ese era el mundo. Y en medio de todo eso… llegaste tú."
+          : "That was the world. And in the middle of it… you arrived."}
+      </p>
+    </div>
+  </div>
+)}
           {/* Chapters */}
           {layers[1] && (
             <div className="chapters-wrap">
