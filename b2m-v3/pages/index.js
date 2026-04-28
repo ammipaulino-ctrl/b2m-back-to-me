@@ -279,6 +279,13 @@ export default function B2M() {
   const [ch2data, setCh2data]   = useState(null);
   const [ch2loading, setCh2loading] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
+  useEffect(() => {
+  const paid = localStorage.getItem("b2m_paid");
+
+  if (paid === "true") {
+    setUnlocked(true);
+  }
+}, []);
 
   const today = new Date().toISOString().split("T")[0];
   const t = lang ? T[lang] : T.en;
