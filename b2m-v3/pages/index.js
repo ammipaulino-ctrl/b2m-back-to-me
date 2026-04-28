@@ -566,7 +566,10 @@ export default function B2M() {
               <p className="gate-body">{t.gateBody}</p>
               <button
                 className="btn-gold"
-                onClick={() => window.location.href = "https://buy.stripe.com/test_3cIbJ24OBaP0aqa7wsbo400"}
+                onClick={() => {
+  localStorage.setItem("b2m_paid", "true");
+  window.location.href = "https://buy.stripe.com/test_7sY3cxa46cY25qe6m35Ne00";
+}}
 
                 style={{ animation:"goldPulse 3s ease-in-out infinite" }}
               >
