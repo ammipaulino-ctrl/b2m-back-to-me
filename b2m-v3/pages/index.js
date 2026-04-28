@@ -1,4 +1,4 @@
-import { useState, memo } from "react";
+import { useState, useEffect, memo } from "react";
 
 // ─── STARS (memoized — never re-renders) ─────────────────────────────────────
 const STARS = Array.from({ length: 60 }, (_, i) => ({
