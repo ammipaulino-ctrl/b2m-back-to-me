@@ -279,7 +279,18 @@ export default function B2M() {
   const [ch2data, setCh2data]   = useState(null);
   const [ch2loading, setCh2loading] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
-  useEffect(() => {
+  const [showPaidIntro, setShowPaidIntro] = useState(false);
+ useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  const paidFromStripe = params.get("paid");
+
+  if (paidFromStripe === "true") {
+    localStorage.setItem("b2m_paid", "true");
+    setShowPaidIntro(true);
+    setUnlocked(false);
+    return;
+  }
+
   const paid = localStorage.getItem("b2m_paid");
 
   if (paid === "true") {
@@ -601,7 +612,36 @@ export default function B2M() {
     </p>
   </div>
 )}
+{/* Paid Intro Screen */}
+{showPaidIntro && (
+  <div className="gate" style={{ marginTop:40 }}>
+    <p className="gate-title">
+      {lang === "es"
+        ? "Capítulo II desbloqueado"
+        : "Chapter II unlocked"}
+    </p>
 
+    <p className="gate-body">
+      {lang === "es"
+        ? "Tu historia continúa. El mundo que te recibió está listo para abrirse ante ti."
+        : "Your story continues. The world that welcomed you is ready to open before you."}
+    </p>
+
+    <button
+      className="btn-gold"
+      onClick={() => {
+        setShowPaidIntro(false);
+        setUnlocked(true);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }}
+      style={{ animation:"goldPulse 3s ease-in-out infinite" }}
+    >
+      {lang === "es"
+        ? "ENTRAR AL MUNDO QUE ME RECIBIÓ"
+        : "ENTER THE WORLD THAT WELCOMED ME"}
+    </button>
+  </div>
+)}
 {/* Chapter II Full — unlocked after payment/test */}
 {unlocked && (
   <div className="ch2-preview" style={{ marginTop:40 }}>
