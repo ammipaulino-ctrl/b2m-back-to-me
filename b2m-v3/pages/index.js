@@ -281,6 +281,8 @@ export default function B2M() {
   const [unlocked, setUnlocked] = useState(false);
   const [showPaidIntro, setShowPaidIntro] = useState(false);
  useEffect(() => {
+  if (typeof window === "undefined") return;
+
   const params = new URLSearchParams(window.location.search);
   const paidFromStripe = params.get("paid");
 
@@ -309,7 +311,6 @@ export default function B2M() {
     setUnlocked(true);
   }
 }, []);
-
   const paid = localStorage.getItem("b2m_paid");
 
   if (paid === "true") {
