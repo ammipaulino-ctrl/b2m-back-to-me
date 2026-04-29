@@ -311,13 +311,7 @@ export default function B2M() {
     setUnlocked(true);
   }
 }, []);
-  const paid = localStorage.getItem("b2m_paid");
-
-  if (paid === "true") {
-    setUnlocked(true);
-  }
-}, []);
-
+  
   const today = new Date().toISOString().split("T")[0];
   const t = lang ? T[lang] : T.en;
   const year  = dob ? new Date(dob + "T12:00:00").getFullYear() : 0;
