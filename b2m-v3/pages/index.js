@@ -580,6 +580,8 @@ export default function B2M() {
       className="btn-gold"
       onClick={() => {
         localStorage.setItem("b2m_paid", "true");
+        localStorage.setItem("b2m_lang", lang);
+        localStorage.setItem("b2m_dob", dob);
         window.location.href = "https://buy.stripe.com/test_7sY3cxa46cY25qe6m35Ne00";
       }}
       style={{ animation:"goldPulse 3s ease-in-out infinite" }}
