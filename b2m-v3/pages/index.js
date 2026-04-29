@@ -668,12 +668,21 @@ export default function B2M() {
 
     {[
       {
-        icon:"🎵",
-        titleEs:"La canción que sonaba",
-        titleEn:"The song that was playing",
-        textEs:"Mientras llegabas al mundo, una canción dominaba radios, hogares y memorias.",
-        textEn:"As you arrived, one song was filling radios, homes, and memories.",
-      },
+  key:"music",
+  icon:"🎵",
+  titleEs:"El sonido del mundo cuando llegaste",
+  titleEn:"The sound of the world when you arrived",
+  textEs:"Mientras llegabas al mundo, no llegaste en silencio. Había música sonando en radios, casas, carros y memorias.",
+  textEn:"As you arrived, you didn’t arrive in silence. Music was playing through radios, homes, cars, and memories.",
+  songs:[
+    { title:"Song 1", artist:"Artist 1", format:"Cassette / CD / Vinyl" },
+    { title:"Song 2", artist:"Artist 2", format:"Cassette / CD / Vinyl" },
+    { title:"Song 3", artist:"Artist 3", format:"Cassette / CD / Vinyl" },
+    { title:"Song 4", artist:"Artist 4", format:"Cassette / CD / Vinyl" },
+    { title:"Song 5", artist:"Artist 5", format:"Cassette / CD / Vinyl" },
+  ],
+  value:"Top 5 musical snapshot"
+},
         {
         icon:"📺",
         titleEs:"Lo que la gente veía",
