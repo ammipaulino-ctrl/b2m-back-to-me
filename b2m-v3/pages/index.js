@@ -673,58 +673,8 @@ export default function B2M() {
         titleEn:"The song that was playing",
         textEs:"Mientras llegabas al mundo, una canción dominaba radios, hogares y memorias.",
         textEn:"As you arrived, one song was filling radios, homes, and memories.",
-        <div style={{ marginTop:20 }}>
-
-  <p style={{ color:"#E8D6A3", fontSize:18, marginBottom:10 }}>
-    🎧 TOP 5 — ESA SEMANA
-  </p>
-
-  <p style={{ color:"#C8B888", fontSize:14, lineHeight:1.6, marginBottom:16 }}>
-    {lang === "es"
-      ? "Mientras llegabas al mundo, no llegaste en silencio. Estas eran las canciones que dominaban ese momento."
-      : "As you arrived, you didn’t arrive in silence. These were the songs dominating the world."}
-  </p>
-
-  {[
-    {title:"Song 1", artist:"Artist", format:"Cassette"},
-    {title:"Song 2", artist:"Artist", format:"CD"},
-    {title:"Song 3", artist:"Artist", format:"Vinyl"},
-    {title:"Song 4", artist:"Artist", format:"Cassette"},
-    {title:"Song 5", artist:"Artist", format:"CD"},
-  ].map((song, i) => (
-
-    <div key={i} style={{
-      display:"flex",
-      alignItems:"center",
-      gap:12,
-      marginBottom:12,
-      background:"#12100D",
-      padding:"12px",
-      border:"1px solid #2A241C"
-    }}>
-
-      <div style={{
-        width:50,
-        height:50,
-        background:"#333"
-      }} />
-
-      <div style={{ textAlign:"left" }}>
-        <p style={{ color:"#E8D6A3", fontSize:14 }}>
-          {i+1}. {song.title}
-        </p>
-        <p style={{ color:"#C8B888", fontSize:12 }}>
-          {song.artist} · {song.format}
-        </p>
-      </div>
-
-    </div>
-
-  ))}
-
-</div>
       },
-      {
+        {
         icon:"📺",
         titleEs:"Lo que la gente veía",
         titleEn:"What people were watching",
