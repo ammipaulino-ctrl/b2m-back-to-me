@@ -612,33 +612,52 @@ export default function B2M() {
     </p>
   </div>
 )}
-{/* Paid Intro Screen */}
+{/* Paid Intro Screen — Cinematic Chapter II Entry */}
 {showPaidIntro && (
-  <div className="gate" style={{ marginTop:40 }}>
-    <p className="gate-title">
-      {lang === "es"
-        ? "Capítulo II desbloqueado"
-        : "Chapter II unlocked"}
+  <div className="page fade-in">
+    <div className="logo fu d1">
+      {t.logo}
+    </div>
+
+    <p className="eyebrow fu d1">
+      {lang === "es" ? "CAPÍTULO II DESBLOQUEADO" : "CHAPTER II UNLOCKED"}
     </p>
 
-    <p className="gate-body">
+    <h1 className="headline fu d2">
+      {lang === "es" ? (
+        <>
+          El mundo que<br />
+          <em>te recibió</em>
+        </>
+      ) : (
+        <>
+          The world that<br />
+          <em>welcomed you</em>
+        </>
+      )}
+    </h1>
+
+    <div className="loader-wrap fu d3" style={{ margin:"28px 0" }}>
+      <div className="orbit" />
+    </div>
+
+    <p className="subtext fu d3">
       {lang === "es"
-        ? "Tu historia continúa. El mundo que te recibió está listo para abrirse ante ti."
-        : "Your story continues. The world that welcomed you is ready to open before you."}
+        ? "Tu historia continúa. Antes de saber quién serías, el mundo ya estaba sonando, cambiando y respirando a su propio ritmo."
+        : "Your story continues. Before the world knew who you would become, it was already moving, singing, changing, and breathing in its own rhythm."}
     </p>
 
     <button
-      className="btn-gold"
+      className="btn-outline fu d4"
       onClick={() => {
         setShowPaidIntro(false);
         setUnlocked(true);
         window.scrollTo({ top: 0, behavior: "smooth" });
       }}
-      style={{ animation:"goldPulse 3s ease-in-out infinite" }}
     >
-      {lang === "es"
-        ? "ENTRAR AL MUNDO QUE ME RECIBIÓ"
-        : "ENTER THE WORLD THAT WELCOMED ME"}
+      <span>
+        {lang === "es" ? "ENTRAR A MI ÉPOCA" : "ENTER MY ERA"}
+      </span>
     </button>
   </div>
 )}
