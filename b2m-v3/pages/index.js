@@ -725,7 +725,7 @@ export default function B2M() {
           <p style={{ color:"#C8B888", fontSize:14, lineHeight:1.6 }}>
             {lang === "es" ? item.textEs : item.textEn}
           </p>
-          <p className="ch2-card-value">{item.value}</p>
+          {item.key === "music" && item.songs ? (   <div style={{ marginTop:14 }}>     <p style={{       color:"#E8D6A3",       fontSize:13,       marginBottom:10,       letterSpacing:".08em"     }}>       🎧 TOP 5 — ESA SEMANA     </p>      {item.songs.map((song, idx) => (       <div key={idx} style={{         display:"flex",         gap:10,         alignItems:"center",         marginBottom:10,         padding:"10px",         background:"rgba(255,255,255,.03)",         border:"1px solid rgba(201,169,110,.18)"       }}>         <div style={{           width:42,           height:42,           background:"#2A241C",           display:"flex",           alignItems:"center",           justifyContent:"center",           color:"#C9A96E",           fontSize:12         }}>           {idx + 1}         </div>          <div style={{ textAlign:"left" }}>           <p style={{ color:"#F0E6CC", fontSize:13, margin:0 }}>             {song.title}           </p>           <p style={{ color:"#8F8268", fontSize:11, margin:0 }}>             {song.artist} · {song.format}           </p>         </div>       </div>     ))}   </div> ) : (   <p className="ch2-card-value">{item.value}</p> )}
         </div>
       </div>
     ))}
