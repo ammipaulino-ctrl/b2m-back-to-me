@@ -284,12 +284,31 @@ export default function B2M() {
   const params = new URLSearchParams(window.location.search);
   const paidFromStripe = params.get("paid");
 
+  const savedLang = localStorage.getItem("b2m_lang");
+  const savedDob = localStorage.getItem("b2m_dob");
+
   if (paidFromStripe === "true") {
     localStorage.setItem("b2m_paid", "true");
+
+    if (savedLang) setLang(savedLang);
+    if (savedDob) setDob(savedDob);
+
+    setScreen("story");
     setShowPaidIntro(true);
     setUnlocked(false);
+
     return;
   }
+
+  const paid = localStorage.getItem("b2m_paid");
+
+  if (paid === "true" && savedLang && savedDob) {
+    setLang(savedLang);
+    setDob(savedDob);
+    setScreen("story");
+    setUnlocked(true);
+  }
+}, []);
 
   const paid = localStorage.getItem("b2m_paid");
 
