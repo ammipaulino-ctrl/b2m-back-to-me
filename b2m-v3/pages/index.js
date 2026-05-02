@@ -159,7 +159,6 @@ function renderNarrative(text) {
       <TypewriterParagraph key={i} text={clean} />
     );
   });
-
 // ─── COPY ─────────────────────────────────────────────────────────────────────
 const T = {
   en: {
