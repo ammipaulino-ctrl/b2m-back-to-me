@@ -265,7 +265,6 @@ const T = {
     back:"← VOLVER",
     err:"Por favor ingresa tu fecha de nacimiento.",
  },
-},
   };
 
 const CH2_ICONS = [
