@@ -266,6 +266,7 @@ const T = {
     err:"Por favor ingresa tu fecha de nacimiento.",
  },
 },
+  };
 
 const CH2_ICONS = [
   { icon:"🎵", key:"song",    labelEn:"THE #1 SONG THAT WEEK",    labelEs:"LA CANCIÓN #1 ESA SEMANA" },
