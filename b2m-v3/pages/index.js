@@ -9,7 +9,7 @@ const STARS = Array.from({ length: 60 }, (_, i) => ({
   st: `${2.5 + (i % 6)}s`,
   sd: `${(i * 0.29) % 8}s`,
   so: 0.25 + (i % 5) * 0.15,
-}));
+}];
 
 const StarField = memo(function StarField() {
   return (
@@ -265,8 +265,9 @@ const T = {
     scta:"COMPARTIR MI LÍNEA DE TIEMPO",
     back:"← VOLVER",
     err:"Por favor ingresa tu fecha de nacimiento.",
-  },
-};
+  }
+ }
+};//
 
 const CH2_ICONS = [
   { icon:"🎵", key:"song",    labelEn:"THE #1 SONG THAT WEEK",    labelEs:"LA CANCIÓN #1 ESA SEMANA" },
