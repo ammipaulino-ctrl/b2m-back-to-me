@@ -120,7 +120,8 @@ function getAge(dob) {
 function fmtDate(dob, lang) {
   return new Date(dob + "T12:00:00").toLocaleDateString(lang === "es" ? "es-ES" : "en-US", {
     weekday:"long", year:"numeric", month:"long", day:"numeric"
- }
+ });
+}
 function getGen(y, lang) {
   const g = lang === "es"
     ? [[1946,"La Generación Silenciosa"],[1965,"Baby Boomer"],[1981,"Generación X"],[1997,"Millennial"],[2013,"Generación Z"],[9999,"Generación Alpha"]]
