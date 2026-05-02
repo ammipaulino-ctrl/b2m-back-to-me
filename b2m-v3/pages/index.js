@@ -9,7 +9,7 @@ const STARS = Array.from({ length: 60 }, (_, i) => ({
   st: `${2.5 + (i % 6)}s`,
   sd: `${(i * 0.29) % 8}s`,
   so: 0.25 + (i % 5) * 0.15,
-}];
+}));
 
 const StarField = memo(function StarField() {
   return (
