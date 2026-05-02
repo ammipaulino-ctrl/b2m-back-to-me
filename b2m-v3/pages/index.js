@@ -134,24 +134,31 @@ function renderNarrative(text) {
 
   return String(text).split("\n").map((line, i) => {
     const clean = line.trim();
+
     if (!clean) return <br key={i} />;
 
     if (clean.startsWith("#")) {
       return (
-        <h2 key={i} className="narrative-heading" style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(30px,6vw,44px)", fontWeight:700, color:"#E8D6A3", lineHeight:1.25, margin:"28px 0 16px", textAlign:"center" }}>
+        <h2
+          key={i}
+          className="narrative-heading"
+          style={{
+            fontFamily: "'Cormorant Garamond',serif",
+            fontSize: "clamp(30px,6vw,44px)",
+            fontWeight: 700,
+            color: "#E8D6A3",
+            lineHeight: 1.25,
+            margin: "28px 0 16px",
+            textAlign: "center"
+          }}
+        >
           {clean.replace(/^#+/, "").trim()}
         </h2>
       );
     }
 
-    // Aquí es donde sucede la magia: cambiamos el <p> normal por el animado
-    return <TypewriterParagraph key={i} text={clean} />;
-  });
-} 
-return (
-      <p key={i} style={{ marginBottom:18 }}>
-        {clean}
-      </p>
+    return (
+      <TypewriterParagraph key={i} text={clean} />
     );
   });
 }
