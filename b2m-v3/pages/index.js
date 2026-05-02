@@ -264,7 +264,6 @@ const T = {
     scta:"COMPARTIR MI LÍNEA DE TIEMPO",
     back:"← VOLVER",
     err:"Por favor ingresa tu fecha de nacimiento.",
-  }
  },
 
 const CH2_ICONS = [
