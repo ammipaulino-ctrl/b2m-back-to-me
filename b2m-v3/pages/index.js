@@ -1,15 +1,14 @@
 import { useState, useEffect, memo } from "react";
 
-// ─── STARS (memoized — never re-renders) ─────────────────────────────────────
-const STARS = Array.from({ length: 60 }, (_, i) => ({
+const STARS = Array.from({ length: 60 }).map((_, i) => ({
   id: i,
-  top: ((Math.sin(i * 127.1) + 1) / 2) * 100,
-  left: ((Math.cos(i * 97.3) + 1) / 2) * 100,
-  size: i % 4 === 0 ? 3 : i % 3 === 0 ? 2 : 1.5,
+  top: Math.random() * 100,
+  left: Math.random() * 100,
+  size: Math.random() * 2 + 1,
   st: `${2.5 + (i % 6)}s`,
   sd: `${(i * 0.29) % 8}s`,
-  so: 0.25 + (i % 5) * 0.15,
-}));
+  so: 0.25 + (i % 5) * 0.15
+})); 
 
 const StarField = memo(function StarField() {
   return (
