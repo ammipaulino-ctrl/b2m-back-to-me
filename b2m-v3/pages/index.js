@@ -25,6 +25,22 @@ const StarField = memo(function StarField() {
       <div className="orb" style={{ width:240, height:240, background:"#6B4E9E", bottom:80, right:-80, opacity:.07, "--ot":"11s", "--ox":"-20px", "--oy":"-30px" }} />
     </div>
   );
+const TypewriterParagraph = memo(function TypewriterParagraph({ text, speed = 20 }) {
+  const [displayedText, setDisplayedText] = useState("");
+  
+  useEffect(() => {
+    let i = 0;
+    setDisplayedText(""); 
+    const timer = setInterval(() => {
+      // Esta lógica va sumando una letra a la vez
+      setDisplayedText((prev) => text.slice(0, prev.length + 1));
+      if (i >= text.length) clearInterval(timer);
+      i++;
+    }, speed);
+    return () => clearInterval(timer);
+  }, [text, speed]);
+
+  return <p style={{ marginBottom: 18, minHeight: "1.2em" }}>{displayedText}</p>;
 });
 
 // ─── ISOLATED INPUT COMPONENTS ───────────────────────────────────────────────
@@ -118,30 +134,21 @@ function renderNarrative(text) {
 
   return String(text).split("\n").map((line, i) => {
     const clean = line.trim();
-
     if (!clean) return <br key={i} />;
 
     if (clean.startsWith("#")) {
       return (
-        <h2
-          key={i}
-          className="narrative-heading"
-          style={{
-            fontFamily:"'Cormorant Garamond',serif",
-            fontSize:"clamp(30px,6vw,44px)",
-            fontWeight:700,
-            color:"#E8D6A3",
-            lineHeight:1.25,
-            margin:"28px 0 16px",
-            textAlign:"center"
-          }}
-        >
-          {clean.replace(/^#+/, "").trim()},
+        <h2 key={i} className="narrative-heading" style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(30px,6vw,44px)", fontWeight:700, color:"#E8D6A3", lineHeight:1.25, margin:"28px 0 16px", textAlign:"center" }}>
+          {clean.replace(/^#+/, "").trim()}
         </h2>
       );
     }
 
-    return (
+    // Aquí es donde sucede la magia: cambiamos el <p> normal por el animado
+    return <TypewriterParagraph key={i} text={clean} />;
+  });
+} 
+return (
       <p key={i} style={{ marginBottom:18 }}>
         {clean}
       </p>
