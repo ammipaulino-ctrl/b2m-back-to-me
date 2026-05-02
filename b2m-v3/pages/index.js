@@ -127,8 +127,8 @@ function getGen(y, lang) {
     ? [[1946,"La Generación Silenciosa"],[1965,"Baby Boomer"],[1981,"Generación X"],[1997,"Millennial"],[2013,"Generación Z"],[9999,"Generación Alpha"]]
     : [[1946,"The Silent Generation"],[1965,"Baby Boomer"],[1981,"Generation X"],[1997,"Millennial"],[2013,"Generation Z"],[9999,"Generation Alpha"]];
   return g.find(([max]) => y < max)[1];
- });
 }
+
 function renderNarrative(text) {
   if (!text) return null;
 
@@ -143,13 +143,13 @@ function renderNarrative(text) {
           key={i}
           className="narrative-heading"
           style={{
-            fontFamily: "'Cormorant Garamond',serif",
-            fontSize: "clamp(30px,6vw,44px)",
-            fontWeight: 700,
-            color: "#E8D6A3",
-            lineHeight: 1.25,
-            margin: "28px 0 16px",
-            textAlign: "center"
+            fontFamily:"'Cormorant Garamond',serif",
+            fontSize:"clamp(30px,6vw,44px)",
+            fontWeight:700,
+            color:"#E8D6A3",
+            lineHeight:1.25,
+            margin:"28px 0 16px",
+            textAlign:"center"
           }}
         >
           {clean.replace(/^#+/, "").trim()}
@@ -163,7 +163,7 @@ function renderNarrative(text) {
   });
 }
 
-// // ─── COPY ─────────────────────────────────────────────────────────────────────
+// ─── COPY ─────────────────────────────────────────────────────────────────────
 const T = {
   en: {
     logo:"B2M · BACK TO ME",
