@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>B2M · Back To Me</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap');
+
+    :root {
+      --bg: #070604;
+      --card: #12100d;
+      --gold: #c9a96e;
+      --gold-soft: #e8d6a3;
+      --text: #f0e6cc;
+      --muted: #8f8268;
+      --dim: #5a5145;
+      --border: rgba(201,169,110,.22);
+      --danger: #c97070;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(201,169,110,.08), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(107,78,158,.10), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, sans-serif;
+      overflow-x: hidden;
+    }
+
+    button, input, textarea {
+      font-family: inherit;
+    }
+
+    button {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .star-field {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .star {
+      position: absolute;
+      border-radius: 999px;
+      background: #f6e8bd;
+      opacity: var(--so);
+      animation: twinkle var(--st) ease-in-out infinite;
+      animation-delay: var(--sd);
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(40px);
+      animation: floatOrb var(--ot) ease-in-out infinite alternate;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: .15; transform: scale(.9); }
+      50% { opacity: .85; transform: scale(1.3); }
+    }
+
+    @keyframes floatOrb {
+      from { transform: translate(0, 0); }
+      to { transform: translate(var(--ox), var(--oy)); }
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      padding: 48px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .fade-in {
+      animation: fadeIn .7s ease both;
+    }
+
+    .fu {
+      opacity: 0;
+      animation: fadeUp .75s ease forwards;
+    }
+
+    .d1 { animation-delay: .1s; }
+    .d2 { animation-delay: .22s; }
+    .d3 { animation-delay: .34s; }
+    .d4 { animation-delay: .46s; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo {
+      font-family: Cinzel, serif;
+      letter-spacing: .32em;
+      color: var(--gold);
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .eyebrow {
+      font-family: Cinzel, serif;
+      letter-spacing: .32em;
+      color: var(--muted);
+      font-size: 10px;
+      margin: 16px 0 22px;
+      text-transform: uppercase;
+    }
+
+    .headline {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(42px, 10vw, 82px);
+      line-height: .95;
+      margin: 0;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .headline em {
+      color: var(--gold-soft);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .subtext {
+      max-width: 560px;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 15px;
+      margin: 26px auto 36px;
+    }
+
+    .btn-outline,
+    .btn-gold,
+    .btn-ghost,
+    .opt-btn {
+      cursor: pointer;
+      border-radius: 999px;
+      transition: all .25s ease;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold-soft);
+      padding: 16px 26px;
+      font-family: Cinzel, serif;
+      letter-spacing: .22em;
+      font-size: 11px;
+    }
+
+    .btn-outline:hover {
+      background: rgba(201,169,110,.10);
+      transform: translateY(-1px);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, #c9a96e, #e8d6a3);
+      color: #17120a;
+      border: 0;
+      padding: 15px 24px;
+      font-family: Cinzel, serif;
+      font-weight: 700;
+      letter-spacing: .16em;
+      font-size: 11px;
+      min-width: 230px;
+    }
+
+    .btn-gold:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+    }
+
+    .btn-ghost {
+      margin-top: 12px;
+      background: transparent;
+      border: 0;
+      color: var(--muted);
+      padding: 12px 16px;
+      font-size: 13px;
+      text-decoration: underline;
+      text-underline-offset: 5px;
+    }
+
+    .input-label {
+      display: block;
+      text-align: left;
+      color: var(--muted);
+      font-family: Cinzel, serif;
+      letter-spacing: .22em;
+      font-size: 10px;
+      margin-bottom: 9px;
+    }
+
+    .input-field {
+      width: 100%;
+      background: rgba(18,16,13,.86);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 14px 16px;
+      outline: none;
+      border-radius: 0;
+      font-size: 16px;
+    }
+
+    .input-field:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201,169,110,.08);
+    }
+
+    .back-btn {
+      position: fixed;
+      top: 18px;
+      left: 18px;
+      z-index: 20;
+      border: 1px solid var(--border);
+      background: rgba(7,6,4,.74);
+      color: var(--muted);
+      padding: 10px 14px;
+      font-size: 12px;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+    }
+
+    .chapter-bar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(7,6,4,.78);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(201,169,110,.12);
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chapter-label {
+      font-family: Cinzel, serif;
+      letter-spacing: .22em;
+      color: var(--gold);
+      font-size: 10px;
+    }
+
+    .chapter-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .cdot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      border: 1px solid var(--dim);
+    }
+
+    .cdot.done,
+    .cdot.active {
+      background: var(--gold);
+      border-color: var(--gold);
+      box-shadow: 0 0 10px rgba(201,169,110,.45);
+    }
+
+    .story-hero {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 70px 20px 24px;
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 280px;
+      height: 280px;
+      transform: translate(-50%,-50%);
+      background: rgba(201,169,110,.09);
+      border-radius: 50%;
+      filter: blur(45px);
+      z-index: -1;
+    }
+
+    .hero-tag {
+      font-family: Cinzel, serif;
+      letter-spacing: .22em;
+      font-size: 9px;
+      color: var(--muted);
+      text-transform: uppercase;
+      line-height: 1.8;
+    }
+
+    .hero-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(44px, 11vw, 86px);
+      line-height: .94;
+      margin: 12px 0 16px;
+      font-weight: 600;
+    }
+
+    .hero-sub {
+      color: var(--muted);
+      font-style: italic;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 20px;
+    }
+
+    .stats-row {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      max-width: 760px;
+      margin: 20px auto 36px;
+      background: rgba(201,169,110,.14);
+      border: 1px solid rgba(201,169,110,.15);
+    }
+
+    .stat {
+      background: rgba(18,16,13,.82);
+      padding: 18px 10px;
+      text-align: center;
+    }
+
+    .stat-n {
+      display: block;
+      color: var(--gold-soft);
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(22px, 5vw, 34px);
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    .stat-n.sm {
+      font-size: clamp(15px, 3vw, 20px);
+    }
+
+    .stat-l {
+      display: block;
+      margin-top: 8px;
+      font-family: Cinzel, serif;
+      color: var(--dim);
+      letter-spacing: .18em;
+      font-size: 8px;
+    }
+
+    .layer-wrap,
+    .q-wrap,
+    .ch2-preview,
+    .gate,
+    .chapters-wrap,
+    .share-wrap {
+      position: relative;
+      z-index: 1;
+      width: calc(100% - 36px);
+      max-width: 760px;
+      margin: 24px auto;
+    }
+
+    .layer-wrap {
+      border-top: 1px solid rgba(201,169,110,.14);
+      padding-top: 30px;
+    }
+
+    .layer-tag {
+      font-family: Cinzel, serif;
+      color: var(--gold);
+      letter-spacing: .24em;
+      font-size: 10px;
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .narrative {
+      color: #d7c8a5;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 22px;
+      line-height: 1.65;
+      text-align: left;
+    }
+
+    .narrative p {
+      margin: 0 0 18px;
+    }
+
+    .narrative-heading {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(30px,6vw,44px);
+      font-weight: 700;
+      color: var(--gold-soft);
+      line-height: 1.25;
+      margin: 28px 0 16px;
+      text-align: center;
+    }
+
+    .q-wrap {
+      background: rgba(18,16,13,.62);
+      border: 1px solid rgba(201,169,110,.18);
+      padding: 28px 20px;
+      text-align: center;
+    }
+
+    .q-text {
+      font-family: "Cormorant Garamond", serif;
+      color: var(--text);
+      font-size: 26px;
+      line-height: 1.3;
+      margin: 0 0 20px;
+    }
+
+    .opt-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .opt-btn {
+      background: #12100d;
+      border: 1px solid var(--border);
+      color: var(--gold-soft);
+      padding: 15px 14px;
+      font-size: 14px;
+    }
+
+    .opt-btn.full {
+      grid-column: 1 / -1;
+    }
+
+    .opt-btn:hover {
+      border-color: var(--gold);
+      background: rgba(201,169,110,.08);
+    }
+
+    .loader-wrap {
+      text-align: center;
+      margin: 28px auto;
+    }
+
+    .orbit {
+      width: 44px;
+      height: 44px;
+      margin: 0 auto 14px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,169,110,.18);
+      border-top-color: var(--gold);
+      animation: spin 1s linear infinite;
+    }
+
+    .load-sub {
+      color: var(--muted);
+      font-family: Cinzel, serif;
+      letter-spacing: .22em;
+      font-size: 10px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .ch2-preview {
+      border: 1px solid rgba(201,169,110,.18);
+      background: rgba(18,16,13,.62);
+      padding: 24px;
+    }
+
+    .ch2-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .ch2-title,
+    .chapters-title {
+      font-family: Cinzel, serif;
+      letter-spacing: .22em;
+      color: var(--gold);
+      font-size: 10px;
+      margin: 0 0 12px;
+    }
+
+    .ch2-cards {
+      display: grid;
+      gap: 12px;
+    }
+
+    .ch2-card {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      border: 1px solid rgba(201,169,110,.16);
+      background: rgba(255,255,255,.025);
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ch2-card.locked {
+      filter: blur(2px);
+      opacity: .6;
+    }
+
+    .ch2-card-icon {
+      font-size: 26px;
+      width: 36px;
+      flex: 0 0 36px;
+      text-align: center;
+    }
+
+    .ch2-card-info {
+      flex: 1;
+      text-align: left;
+    }
+
+    .ch2-card-label {
+      color: var(--gold-soft);
+      font-family: Cinzel, serif;
+      letter-spacing: .12em;
+      font-size: 10px;
+      margin: 0 0 8px;
+      line-height: 1.5;
+    }
+
+    .ch2-card-value {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .ch2-lock-overlay {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: var(--gold);
+      pointer-events: none;
+    }
+
+    .gate {
+      text-align: center;
+      padding: 28px 20px;
+      border-top: 1px solid rgba(201,169,110,.14);
+    }
+
+    .gate-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 34px;
+      color: var(--gold-soft);
+      margin: 0 0 12px;
+    }
+
+    .gate-body {
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 560px;
+      margin: 0 auto 22px;
+    }
+
+    .gate-price {
+      color: var(--gold);
+      font-size: 13px;
+      margin: 14px 0 0;
+    }
+
+    @keyframes goldPulse {
+      0%, 100% { box-shadow: 0 0 0 rgba(201,169,110,0); }
+      50% { box-shadow: 0 0 24px rgba(201,169,110,.28); }
+    }
+
+    .chapters-wrap {
+      margin-top: 34px;
+    }
+
+    .ch-card {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      border: 1px solid rgba(201,169,110,.14);
+      background: rgba(18,16,13,.55);
+      padding: 15px;
+      margin-bottom: 10px;
+    }
+
+    .ch-card.locked {
+      opacity: .62;
+    }
+
+    .ch-num {
+      color: var(--gold);
+      font-family: Cinzel, serif;
+      font-size: 20px;
+      width: 36px;
+      text-align: center;
+    }
+
+    .ch-info {
+      flex: 1;
+    }
+
+    .ch-name {
+      margin: 0 0 5px;
+      color: var(--text);
+      font-family: "Cormorant Garamond", serif;
+      font-size: 21px;
+    }
+
+    .ch-desc {
+      margin: 0;
+      color: var(--dim);
+      font-size: 12px;
+    }
+
+    .ch-lock {
+      color: var(--gold);
+    }
+
+    .share-wrap {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    .share-card {
+      border: 1px solid rgba(201,169,110,.22);
+      background: linear-gradient(180deg, rgba(201,169,110,.08), rgba(18,16,13,.75));
+      padding: 26px 20px;
+      margin-bottom: 14px;
+    }
+
+    .share-logo {
+      font-family: Cinzel, serif;
+      letter-spacing: .28em;
+      color: var(--gold);
+      font-size: 10px;
+      margin: 0 0 18px;
+    }
+
+    .share-text {
+      white-space: pre-line;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 25px;
+      color: var(--gold-soft);
+      line-height: 1.45;
+      margin: 0;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 640px) {
+      .stats-row {
+        width: calc(100% - 24px);
+      }
+
+      .stat {
+        padding: 16px 6px;
+      }
+
+      .chapter-label {
+        max-width: 220px;
+        line-height: 1.5;
+      }
+
+      .narrative {
+        font-size: 20px;
+      }
+
+      .ch2-preview {
+        padding: 18px;
+      }
+
+      .opt-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="stars" class="star-field"></div>
+  <main id="app"></main>
+
+  <script>
+    /* ─── DATA ────────────────────────────────────────────────────────────── */
+    const T = {
+      en: {
+        logo:"B2M · BACK TO ME",
+        tagline:"YOUR STORY IN THE WORLD",
+        welcome:["Do you want to see your","story","in the world?"],
+        wsub:"Every life has a timeline the world remembers. Yours is no exception.",
+        begin:"BEGIN YOUR STORY",
+        otag:"CHAPTER I · YOUR ORIGIN",
+        otitle:["When did your","story begin?"],
+        osub:"The exact moment the world made room for you.",
+        dob:"DATE OF BIRTH",
+        recon:"RECONSTRUCT MY TIMELINE",
+        cbar:"CHAPTER I · THE DAY YOU ARRIVED",
+        htitle:["Your day,","in the world."],
+        hsub:(a)=>`A story ${a} years in the making`,
+        stats:["DAYS LIVED","YEARS","YOUR ERA"],
+        ll:["THE WORLD THAT DAY","YOUR PLACE IN TIME","THE MOMENT","YOUR ORIGINS","YOUR ANSWER"],
+        loading:"RECONSTRUCTING…",
+        q1:"Do you know which city you were born in?",
+        q1ph:"City, Country",
+        q1cta:"CONTINUE MY STORY",
+        q1skip:"I don't know",
+        q2:"What time of day did you arrive?",
+        q2o:["Morning","Afternoon","Evening","Night","I don't know"],
+        q3:"How old were your parents when you arrived?",
+        q3l:["MOTHER","FATHER"],
+        q3ph:"Age",
+        q3cta:"CONTINUE MY STORY",
+        q3skip:"I didn't know them",
+        q4:"Is there something you always wanted to know about the day you arrived?",
+        q4ph:"Ask El Cronista anything…",
+        q4cta:"ASK EL CRONISTA",
+        ch2head:"A glimpse of what awaits in Chapter II",
+        ch2title:"The Cultural World You Were Born Into",
+        ch2sub:"Unlock to discover the music, the faces in power, and the headlines that surrounded your arrival.",
+        gateTxt:"Your story doesn't end here.",
+        gateBody:"What you've seen is only the beginning. Discover the full story behind your arrival — the world, the culture, and the moments that shaped your existence.",
+        gateCta:"UNLOCK MY FULL STORY",
+        gateP:"$4.99 one-time · Lifetime access",
+        disclaimer:"This experience is for entertainment and reflection purposes only. Content may be creatively generated and not historically exact.",
+        privacy:"We do not store or share your personal data. Your inputs are only used to generate this experience.",
+        fakePayMsg:"Your story continues... Full access will be available very soon.",
+        ctitle:"YOUR STORY · ALL CHAPTERS",
+        chapters:[
+          {num:"I",  name:"The Day You Arrived",     desc:"World context · Your origin", active:true},
+          {num:"II", name:"The Era That Shaped You",  desc:"Cultural snapshot · Generational identity", locked:true},
+          {num:"III",name:"Your Footprint",           desc:"What changed while you were here", locked:true},
+          {num:"IV", name:"Your Future Self",         desc:"Probabilistic simulation · Next chapter", locked:true},
+          {num:"V",  name:"Your Letter to the World", desc:"The most personal thing you'll ever read", locked:true}
+        ],
+        stxt:(d,g)=>`"I've lived ${d} days.\nI arrived as a ${g}.\nThe world has never been the same."`,
+        scta:"SHARE MY TIMELINE",
+        back:"← BACK",
+        err:"Please enter your date of birth."
+      },
+      es: {
+        logo:"B2M · DE VUELTA A MÍ",
+        tagline:"TU HISTORIA EN EL MUNDO",
+        welcome:["¿Quieres ver tu","historia","en el mundo?"],
+        wsub:"Toda vida tiene una línea de tiempo que el mundo recuerda. La tuya no es la excepción.",
+        begin:"COMENZAR MI HISTORIA",
+        otag:"CAPÍTULO I · TU ORIGEN",
+        otitle:["¿Cuándo comenzó","tu historia?"],
+        osub:"El momento exacto en que el mundo te hizo un lugar.",
+        dob:"FECHA DE NACIMIENTO",
+        recon:"RECONSTRUIR MI LÍNEA DE TIEMPO",
+        cbar:"CAPÍTULO I · EL DÍA QUE LLEGASTE",
+        htitle:["Tu día,","en el mundo."],
+        hsub:(a)=>`Una historia de ${a} años en construcción`,
+        stats:["DÍAS VIVIDOS","AÑOS","TU ERA"],
+        ll:["EL MUNDO ESE DÍA","TU LUGAR EN EL TIEMPO","EL MOMENTO","TUS ORÍGENES","TU RESPUESTA"],
+        loading:"RECONSTRUYENDO…",
+        q1:"¿Sabes en qué ciudad naciste?",
+        q1ph:"Ciudad, País",
+        q1cta:"CONTINUAR MI HISTORIA",
+        q1skip:"No lo sé",
+        q2:"¿A qué hora del día llegaste?",
+        q2o:["Mañana","Tarde","Noche","Madrugada","No lo sé"],
+        q3:"¿Sabes qué edad tenían tus padres cuando llegaste?",
+        q3l:["MADRE","PADRE"],
+        q3ph:"Edad",
+        q3cta:"CONTINUAR MI HISTORIA",
+        q3skip:"No los conocí",
+        q4:"¿Hay algo que siempre quisiste saber sobre el día que llegaste?",
+        q4ph:"Pregúntale a El Cronista lo que quieras…",
+        q4cta:"PREGUNTARLE A EL CRONISTA",
+        ch2head:"Un vistazo a lo que te espera en el Capítulo II",
+        ch2title:"El Mundo Cultural en el Que Naciste",
+        ch2sub:"Desbloquea para descubrir la música, los líderes y los titulares que rodearon tu llegada.",
+        gateTxt:"Tu historia no termina aquí.",
+        gateBody:"Lo que viste es solo el comienzo. Descubre la historia completa detrás de tu llegada — el mundo, la cultura y los momentos que dieron forma a tu existencia.",
+        gateCta:"DESBLOQUEAR MI HISTORIA COMPLETA",
+        gateP:"$4.99 pago único · Acceso de por vida",
+        disclaimer:"Esta experiencia es solo para fines de entretenimiento y reflexión. Parte del contenido puede ser generado creativamente y no ser históricamente exacto.",
+        privacy:"No almacenamos ni compartimos tus datos personales. Tu información se usa solo para generar esta experiencia.",
+        fakePayMsg:"Tu historia continúa... El acceso completo estará disponible muy pronto.",
+        ctitle:"TU HISTORIA · TODOS LOS CAPÍTULOS",
+        chapters:[
+          {num:"I",  name:"El Día Que Llegaste", desc:"Contexto mundial · Tu origen", active:true},
+          {num:"II", name:"La Era Que Te Formó", desc:"Cultura · Identidad generacional", locked:true},
+          {num:"III",name:"Tu Huella en el Mundo", desc:"Lo que cambió mientras estabas aquí", locked:true},
+          {num:"IV", name:"Tu Yo Futuro", desc:"Simulación probabilística · Tu próximo capítulo", locked:true},
+          {num:"V",  name:"Tu Carta al Mundo", desc:"Lo más personal que jamás leerás", locked:true}
+        ],
+        stxt:(d,g)=>`"He vivido ${d} días.\nLlegué como ${g}.\nEl mundo nunca ha sido el mismo."`,
+        scta:"COMPARTIR MI LÍNEA DE TIEMPO",
+        back:"← VOLVER",
+        err:"Por favor ingresa tu fecha de nacimiento."
+      }
+    };
+
+    const CH2_ICONS = [
+      { icon:"🎵", key:"song", labelEn:"THE #1 SONG THAT WEEK", labelEs:"LA CANCIÓN #1 ESA SEMANA" },
+      { icon:"📺", key:"show", labelEn:"THE MOST WATCHED SHOW", labelEs:"EL PROGRAMA MÁS VISTO" },
+      { icon:"🏛️", key:"leader", labelEn:"YOUR COUNTRY'S LEADER", labelEs:"EL LÍDER DE TU PAÍS" },
+      { icon:"📰", key:"headline", labelEn:"HEADLINE THAT WEEK", labelEs:"TITULAR DE ESA SEMANA" },
+      { icon:"💰", key:"price", labelEn:"WHAT THINGS COST", labelEs:"LO QUE COSTABAN LAS COSAS" }
+    ];
+
+    const state = {
+      lang: null,
+      screen: "language",
+      dob: "",
+      err: "",
+      layers: {},
+      activeL: 0,
+      loading: false,
+      gen: "",
+      city: "",
+      noParents: false,
+      ch2data: null,
+      ch2loading: false,
+      unlocked: false,
+      showPaidIntro: false
+    };
+
+    const $app = document.getElementById("app");
+
+    /* ─── HELPERS ─────────────────────────────────────────────────────────── */
+    function escapeHtml(str) {
+      return String(str || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function getDays(dob) {
+      return Math.floor((Date.now() - new Date(dob + "T12:00:00").getTime()) / 86400000);
+    }
+
+    function getAge(dob) {
+      const b = new Date(dob + "T12:00:00");
+      const n = new Date();
+      let a = n.getFullYear() - b.getFullYear();
+      if (n < new Date(n.getFullYear(), b.getMonth(), b.getDate())) a--;
+      return a;
+    }
+
+    function fmtDate(dob, lang) {
+      return new Date(dob + "T12:00:00").toLocaleDateString(lang === "es" ? "es-ES" : "en-US", {
+        weekday:"long", year:"numeric", month:"long", day:"numeric"
+      });
+    }
+
+    function getGen(y, lang) {
+      const g = lang === "es"
+        ? [[1946,"La Generación Silenciosa"],[1965,"Baby Boomer"],[1981,"Generación X"],[1997,"Millennial"],[2013,"Generación Z"],[9999,"Generación Alpha"]]
+        : [[1946,"The Silent Generation"],[1965,"Baby Boomer"],[1981,"Generation X"],[1997,"Millennial"],[2013,"Generation Z"],[9999,"Generation Alpha"]];
+      const found = g.find(([max]) => y < max);
+      return found ? found[1] : "";
+    }
+
+    function todayISO() {
+      return new Date().toISOString().split("T")[0];
+    }
+
+    function delay(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function setState(patch) {
+      Object.assign(state, patch);
+      render();
+    }
+
+    function reset() {
+      Object.assign(state, {
+        lang:null,
+        screen:"language",
+        dob:"",
+        err:"",
+        layers:{},
+        activeL:0,
+        loading:false,
+        gen:"",
+        city:"",
+        noParents:false,
+        ch2data:null,
+        ch2loading:false,
+        unlocked:false,
+        showPaidIntro:false
+      });
+      render();
+      window.scrollTo({ top:0, behavior:"smooth" });
+    }
+
+    function typewriterMount() {
+      document.querySelectorAll("[data-typewriter]").forEach(el => {
+        const text = el.getAttribute("data-typewriter") || "";
+        const speed = Number(el.getAttribute("data-speed") || 12);
+        let i = 0;
+        el.textContent = "";
+        const timer = setInterval(() => {
+          i++;
+          el.textContent = text.slice(0, i);
+          if (i >= text.length) clearInterval(timer);
+        }, speed);
+      });
+    }
+
+    /* ─── STAR FIELD ──────────────────────────────────────────────────────── */
+    function makeStars() {
+      const stars = document.getElementById("stars");
+      let html = "";
+      for (let i = 0; i < 60; i++) {
+        const top = Math.random() * 100;
+        const left = Math.random() * 100;
+        const size = Math.random() * 2 + 1;
+        const st = `${2.5 + (i % 6)}s`;
+        const sd = `${(i * 0.29) % 8}s`;
+        const so = 0.25 + (i % 5) * 0.15;
+        html += `<div class="star" style="top:${top}%;left:${left}%;width:${size}px;height:${size}px;--st:${st};--sd:${sd};--so:${so};"></div>`;
+      }
+      html += `<div class="orb" style="width:320px;height:320px;background:#C9A96E;top:-120px;left:-100px;opacity:.08;--ot:15s;--ox:30px;--oy:20px;"></div>`;
+      html += `<div class="orb" style="width:240px;height:240px;background:#6B4E9E;bottom:80px;right:-80px;opacity:.07;--ot:11s;--ox:-20px;--oy:-30px;"></div>`;
+      stars.innerHTML = html;
+    }
+
+    /* ─── STORY GENERATOR, NO BACKEND REQUIRED ───────────────────────────── */
+    async function callAPI(layer, extra = {}) {
+      setState({ loading:true, err:"" });
+      await delay(650);
+
+      const lang = state.lang || "en";
+      const t = T[lang];
+      const city = extra.city !== undefined ? extra.city : state.city;
+      const gen = getGen(new Date(state.dob + "T12:00:00").getFullYear(), lang);
+      const date = fmtDate(state.dob, lang);
+      const age = getAge(state.dob);
+      const days = getDays(state.dob).toLocaleString();
+
+      let story = "";
+
+      if (lang === "es") {
+        const cityLine = city ? `Tu historia comenzó en ${city}.` : "Aunque la ciudad no fue escrita, el día sí quedó marcado.";
+        if (layer === 1) {
+          story = `# El día que llegaste\nEl ${date}, el mundo seguía girando con sus noticias, sus canciones, sus preocupaciones y sus esperanzas.\n\nPero para tu historia, ese día no fue uno más. Fue el punto exacto donde tu línea de tiempo comenzó.\n\nHan pasado ${days} días desde entonces. Cada uno ha añadido una pequeña marca a la persona que eres hoy.`;
+        } else if (layer === 2) {
+          story = `# Tu lugar en el mapa\n${cityLine}\n\nNo todos recordamos los detalles exactos del lugar donde nacimos, pero cada origen deja una huella. Una ciudad, una casa, una familia o una circunstancia forman el primer escenario de una vida.`;
+        } else if (layer === 3) {
+          const time = extra.timeOfDay || "unknown";
+          const readable = time === "unknown" ? "en un momento que quizás nadie recuerda con precisión" : `durante la ${time}`;
+          story = `# El momento\nLlegaste ${readable}.\n\nMientras algunos dormían, trabajaban, caminaban o esperaban noticias, tu historia abría su primera página. Antes de tus decisiones, antes de tus sueños y antes de tus errores, ya existía una escena preparada para recibirte.`;
+        } else if (layer === 4) {
+          if (extra.noParents) {
+            story = `# Tus orígenes\nHay historias familiares que se conocen completas y otras que se sienten por partes.\n\nNo saberlo todo no elimina tu origen. También hay fuerza en reconstruirse desde lo que sí se tiene, desde lo vivido y desde lo que uno decide ser.`;
+          } else {
+            const m = extra.motherAge || "una edad que quizás no recuerdas";
+            const f = extra.fatherAge || "una edad que quizás no recuerdas";
+            story = `# Tus orígenes\nCuando llegaste, tu madre tenía ${m} y tu padre tenía ${f}.\n\nEllos también estaban viviendo su propia historia. Y en medio de sus etapas, decisiones, miedos o esperanzas, apareció la tuya.`;
+          }
+        } else {
+          const q = extra.openQuestion || "";
+          story = `# Tu pregunta\nPreguntaste: "${q}"\n\nTal vez la respuesta exacta pertenece a personas, recuerdos o detalles que el tiempo ha ido cubriendo. Pero la pregunta revela algo profundo: quieres volver al inicio para entender mejor quién eres ahora.\n\nEse deseo es el corazón de Back To Me.`;
+        }
+      } else {
+        const cityLine = city ? `Your story began in ${city}.` : "Even if the city was not written down, the day itself was marked.";
+        if (layer === 1) {
+          story = `# The day you arrived\nOn ${date}, the world kept moving with its news, its songs, its worries, and its hopes.\n\nBut for your story, that day was not ordinary. It was the exact point where your timeline began.\n\n${days} days have passed since then. Each one has added a small mark to the person you are today.`;
+        } else if (layer === 2) {
+          story = `# Your place on the map\n${cityLine}\n\nNot everyone remembers every detail of where they were born, but every origin leaves a trace. A city, a home, a family, or a circumstance becomes the first stage of a life.`;
+        } else if (layer === 3) {
+          const time = extra.timeOfDay || "unknown";
+          const readable = time === "unknown" ? "at a moment no one may remember precisely" : `in the ${time}`;
+          story = `# The moment\nYou arrived ${readable}.\n\nWhile people were sleeping, working, walking, or waiting for news, your story opened its first page. Before your choices, your dreams, and your mistakes, there was already a scene prepared to receive you.`;
+        } else if (layer === 4) {
+          if (extra.noParents) {
+            story = `# Your origins\nSome family stories are known completely. Others are felt in fragments.\n\nNot knowing everything does not erase your origin. There is also strength in rebuilding yourself from what you do have, from what you lived, and from what you choose to become.`;
+          } else {
+            const m = extra.motherAge || "an age you may not remember";
+            const f = extra.fatherAge || "an age you may not remember";
+            story = `# Your origins\nWhen you arrived, your mother was ${m} and your father was ${f}.\n\nThey were also living their own story. And in the middle of their stages, decisions, fears, or hopes, yours appeared.`;
+          }
+        } else {
+          const q = extra.openQuestion || "";
+          story = `# Your question\nYou asked: "${q}"\n\nMaybe the exact answer belongs to people, memories, or details that time has covered. But the question reveals something deep: you want to return to the beginning to better understand who you are now.\n\nThat desire is the heart of Back To Me.`;
+        }
+      }
+
+      state.gen = gen;
+      state.loading = false;
+      render();
+      return story;
+    }
+
+    async function fetchCh2Preview() {
+      setState({ ch2loading:true });
+      await delay(500);
+      const lang = state.lang;
+      state.ch2data = lang === "es"
+        ? {
+            song:"Un sonido que marcaba la época",
+            show:"La televisión familiar dominaba la sala",
+            leader:"El liderazgo de tu país formaba parte del contexto",
+            headline:"El mundo hablaba de cambios, conflictos y esperanza",
+            price:"La vida tenía otros precios y otro ritmo"
+          }
+        : {
+            song:"A sound that defined the era",
+            show:"Family television owned the living room",
+            leader:"Your country's leadership shaped the context",
+            headline:"The world spoke of change, conflict, and hope",
+            price:"Life had different prices and a different rhythm"
+          };
+      state.ch2loading = false;
+      render();
+    }
+
+    /* ─── ACTIONS ─────────────────────────────────────────────────────────── */
+    async function startStory() {
+      const t = T[state.lang];
+      if (!state.dob) {
+        setState({ err:t.err });
+        return;
+      }
+      state.err = "";
+      state.screen = "story";
+      state.layers = {};
+      state.activeL = 0;
+      render();
+
+      const story = await callAPI(1);
+      if (story) {
+        state.layers[1] = story;
+        state.activeL = 1;
+        render();
+        window.scrollTo({ top:0, behavior:"smooth" });
+      }
+    }
+
+    async function answerCity() {
+      const val = (document.getElementById("cityInput")?.value || "").trim();
+      state.city = val;
+      const story = await callAPI(2, { city: val });
+      if (story) {
+        state.layers[2] = story;
+        state.activeL = 2;
+        render();
+        scrollToBottom();
+      }
+    }
+
+    async function skipCity() {
+      state.city = "";
+      const story = await callAPI(2, { city: "" });
+      if (story) {
+        state.layers[2] = story;
+        state.activeL = 2;
+        render();
+        scrollToBottom();
+      }
+    }
+
+    async function answerTime(time) {
+      const story = await callAPI(3, { timeOfDay: time });
+      if (story) {
+        state.layers[3] = story;
+        state.activeL = 3;
+        render();
+        scrollToBottom();
+      }
+    }
+
+    async function answerParents(noP) {
+      const mAge = document.getElementById("mAge")?.value || "";
+      const fAge = document.getElementById("fAge")?.value || "";
+      state.noParents = noP;
+      const story = await callAPI(4, { noParents:noP, motherAge:mAge, fatherAge:fAge });
+      if (story) {
+        state.layers[4] = story;
+        state.activeL = 4;
+        render();
+        scrollToBottom();
+      }
+    }
+
+    async function answerQuestion() {
+      const q = (document.getElementById("openQuestion")?.value || "").trim();
+      if (!q) return;
+      const story = await callAPI(5, { openQuestion:q });
+      if (story) {
+        state.layers[5] = story;
+        state.activeL = 5;
+        render();
+        fetchCh2Preview();
+        scrollToBottom();
+      }
+    }
+
+    function unlockFullStory() {
+      try {
+        localStorage.setItem("b2m_paid", "true");
+        localStorage.setItem("b2m_lang", state.lang);
+        localStorage.setItem("b2m_dob", state.dob);
+        localStorage.setItem("b2m_city", state.city || "");
+      } catch (e) {}
+
+      state.showPaidIntro = true;
+      state.unlocked = false;
+      render();
+      window.scrollTo({ top:0, behavior:"smooth" });
+    }
+
+    function enterPaidChapter() {
+      state.showPaidIntro = false;
+      state.unlocked = true;
+      render();
+      window.scrollTo({ top:0, behavior:"smooth" });
+    }
+
+    function shareTimeline() {
+      const lang = state.lang || "en";
+      const g = state.gen || getGen(new Date(state.dob + "T12:00:00").getFullYear(), lang);
+      const text = T[lang].stxt(getDays(state.dob).toLocaleString(), g).replaceAll('"', "");
+      if (navigator.share) {
+        navigator.share({ title:"B2M · Back To Me", text });
+      } else {
+        navigator.clipboard?.writeText(text);
+        alert(lang === "es" ? "Texto copiado." : "Text copied.");
+      }
+    }
+
+    function scrollToBottom() {
+      setTimeout(() => window.scrollTo({ top: document.body.scrollHeight, behavior:"smooth" }), 120);
+    }
+
+    /* ─── HTML RENDERERS ─────────────────────────────────────────────────── */
+    function renderNarrative(text) {
+      if (!text) return "";
+      return String(text).split("\n").map((line, i) => {
+        const clean = line.trim();
+        if (!clean) return `<div style="height:10px"></div>`;
+        if (clean.startsWith("#")) {
+          return `<h2 class="narrative-heading">${escapeHtml(clean.replace(/^#+/, "").trim())}</h2>`;
+        }
+        return `<p data-typewriter="${escapeHtml(clean)}" data-speed="10"></p>`;
+      }).join("");
+    }
+
+    function renderLanguage() {
+      return `
+        <div class="page fade-in">
+          <div class="logo" style="margin-bottom:48px">B2M</div>
+          <p class="eyebrow" style="margin-bottom:48px">LANGUAGE · IDIOMA</p>
+          <div style="display:flex;flex-direction:column;gap:14px;width:100%;max-width:280px">
+            <button class="btn-outline" onclick="setState({ lang:'en', screen:'welcome' })" style="width:100%;padding:22px 24px">English</button>
+            <button class="btn-outline" onclick="setState({ lang:'es', screen:'welcome' })" style="width:100%;padding:22px 24px">Español</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderWelcome() {
+      const t = T[state.lang];
+      return `
+        <button class="back-btn" onclick="reset()">${t.back}</button>
+        <div class="page fade-in">
+          <div class="logo fu d1">${t.logo}</div>
+          <p class="eyebrow fu d1">${t.tagline}</p>
+          <h1 class="headline fu d2">
+            ${t.welcome[0]}<br><em>${t.welcome[1]}</em> ${t.welcome[2]}
+          </h1>
+          <p class="subtext fu d3">${t.wsub}</p>
+          <button class="btn-outline fu d4" onclick="setState({ screen:'input' })">
+            <span>${t.begin}</span>
+          </button>
+        </div>
+      `;
+    }
+
+    function renderInput() {
+      const t = T[state.lang];
+      return `
+        <button class="back-btn" onclick="reset()">${t.back}</button>
+        <div class="page fade-in">
+          <div class="logo fu d1">${t.logo}</div>
+          <p class="eyebrow fu d1">${t.otag}</p>
+          <h2 class="headline fu d2" style="font-size:clamp(30px,7vw,46px)">
+            ${t.otitle[0]}<br>${t.otitle[1]}
+          </h2>
+          <p class="subtext fu d2">${t.osub}</p>
+          <div class="fu d3" style="width:100%;max-width:320px;margin-bottom:32px">
+            <label class="input-label">${t.dob}</label>
+            <input
+              id="dobInput"
+              type="date"
+              class="input-field"
+              value="${escapeHtml(state.dob)}"
+              max="${todayISO()}"
+              onchange="state.dob=this.value;state.err='';render();"
+            >
+          </div>
+          ${state.err ? `<p style="color:var(--danger);font-size:13px;margin-bottom:16px;font-style:italic">${state.err}</p>` : ""}
+          <button class="btn-outline fu d4" onclick="startStory()">
+            <span>${t.recon}</span>
+          </button>
+        </div>
+      `;
+    }
+
+    function renderStory() {
+      const t = T[state.lang];
+      const year = state.dob ? new Date(state.dob + "T12:00:00").getFullYear() : 0;
+      const genDisplay = state.gen || getGen(year, state.lang);
+      const days = getDays(state.dob);
+      const age = getAge(state.dob);
+      const fdate = fmtDate(state.dob, state.lang);
+      const layerKeys = [1,2,3,4,5];
+
+      if (state.showPaidIntro) {
+        return `
+          <button class="back-btn" onclick="reset()">${t.back}</button>
+          <div class="page fade-in">
+            <div class="logo fu d1">${t.logo}</div>
+            <p class="eyebrow fu d1">${state.lang === "es" ? "CAPÍTULO II DESBLOQUEADO" : "CHAPTER II UNLOCKED"}</p>
+            <h1 class="headline fu d2">
+              ${state.lang === "es"
+                ? `El mundo que<br><em>te recibió</em>`
+                : `The world that<br><em>welcomed you</em>`}
+            </h1>
+            <div class="loader-wrap fu d3" style="margin:28px 0">
+              <div class="orbit"></div>
+            </div>
+            <p class="subtext fu d3">
+              ${state.lang === "es"
+                ? "Tu historia continúa. Antes de saber quién serías, el mundo ya estaba sonando, cambiando y respirando a su propio ritmo."
+                : "Your story continues. Before the world knew who you would become, it was already moving, singing, changing, and breathing in its own rhythm."}
+            </p>
+            <button class="btn-outline fu d4" onclick="enterPaidChapter()">
+              <span>${state.lang === "es" ? "ENTRAR A MI ÉPOCA" : "ENTER MY ERA"}</span>
+            </button>
+          </div>
+        `;
+      }
+
+      return `
+        <button class="back-btn" onclick="reset()">${t.back}</button>
+        <div class="fade-in" style="padding-bottom:80px">
+          <div class="chapter-bar">
+            <span class="chapter-label">${t.cbar}</span>
+            <div class="chapter-dots">
+              ${[1,2,3,4,5].map(n => `<div class="cdot ${n===state.activeL ? "active" : n<state.activeL ? "done" : ""}"></div>`).join("")}
+            </div>
+          </div>
+
+          <section class="story-hero">
+            <div class="hero-glow"></div>
+            <p class="hero-tag">${t.logo} · ${escapeHtml(fdate.toUpperCase())}</p>
+            <h1 class="hero-title">${t.htitle[0]}<br>${t.htitle[1]}</h1>
+            <p class="hero-sub">${t.hsub(age)}</p>
+          </section>
+
+          <section class="stats-row">
+            <div class="stat"><span class="stat-n">${days.toLocaleString()}</span><span class="stat-l">${t.stats[0]}</span></div>
+            <div class="stat"><span class="stat-n">${age}</span><span class="stat-l">${t.stats[1]}</span></div>
+            <div class="stat"><span class="stat-n ${genDisplay.length > 12 ? "sm" : ""}">${genDisplay || "—"}</span><span class="stat-l">${t.stats[2]}</span></div>
+          </section>
+
+          ${layerKeys.map(n => state.layers[n] ? `
+            <section class="layer-wrap">
+              <p class="layer-tag">${t.ll[n-1]}</p>
+              <div class="narrative">${renderNarrative(state.layers[n])}</div>
+            </section>
+          ` : "").join("")}
+
+          ${state.loading ? `
+            <div class="loader-wrap">
+              <div class="orbit"></div>
+              <p class="load-sub">${t.loading}</p>
+            </div>
+          ` : ""}
+
+          ${renderQuestions(t)}
+
+          ${state.layers[5] && !state.loading ? renderCh2Preview(t, genDisplay) : ""}
+
+          ${state.layers[5] && !state.loading ? renderGate(t) : ""}
+
+          ${state.unlocked ? renderFullChapterTwo() : ""}
+
+          ${state.layers[1] ? renderChapters(t) : ""}
+
+          ${state.layers[1] ? `
+            <section class="share-wrap">
+              <div class="share-card">
+                <p class="share-logo">${t.logo}</p>
+                <p class="share-text">${escapeHtml(t.stxt(days.toLocaleString(), genDisplay))}</p>
+              </div>
+              <button class="btn-ghost" style="margin-top:0" onclick="shareTimeline()">${t.scta}</button>
+            </section>
+          ` : ""}
+        </div>
+      `;
+    }
+
+    function renderQuestions(t) {
+      if (state.loading) return "";
+
+      if (state.layers[1] && !state.layers[2]) {
+        return `
+          <section class="q-wrap">
+            <p class="q-text">${t.q1}</p>
+            <div style="width:100%;max-width:320px;margin:0 auto 20px">
+              <input id="cityInput" type="text" class="input-field" placeholder="${t.q1ph}" style="font-size:18px;text-align:center" autofocus onkeydown="if(event.key==='Enter') answerCity()">
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center">
+              <button class="btn-gold" onclick="answerCity()">${t.q1cta}</button>
+              <button class="btn-ghost" onclick="skipCity()">${t.q1skip}</button>
+            </div>
+          </section>
+        `;
+      }
+
+      if (state.layers[2] && !state.layers[3]) {
+        return `
+          <section class="q-wrap">
+            <p class="q-text">${t.q2}</p>
+            <div class="opt-grid">
+              ${t.q2o.slice(0,4).map(o => `<button class="opt-btn" onclick="answerTime('${escapeHtml(o.toLowerCase())}')">${o}</button>`).join("")}
+              <button class="opt-btn full" onclick="answerTime('unknown')">${t.q2o[4]}</button>
+            </div>
+          </section>
+        `;
+      }
+
+      if (state.layers[3] && !state.layers[4]) {
+        return `
+          <section class="q-wrap">
+            <p class="q-text">${t.q3}</p>
+            <div style="display:flex;gap:12px;max-width:320px;margin:0 auto 20px">
+              <div style="flex:1">
+                <label class="input-label">${t.q3l[0]}</label>
+                <input id="mAge" type="number" class="input-field" placeholder="${t.q3ph}" min="10" max="80" style="font-size:20px;text-align:center">
+              </div>
+              <div style="flex:1">
+                <label class="input-label">${t.q3l[1]}</label>
+                <input id="fAge" type="number" class="input-field" placeholder="${t.q3ph}" min="10" max="80" style="font-size:20px;text-align:center">
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center">
+              <button class="btn-gold" onclick="answerParents(false)">${t.q3cta}</button>
+              <button class="btn-ghost" onclick="answerParents(true)">${t.q3skip}</button>
+            </div>
+          </section>
+        `;
+      }
+
+      if (state.layers[4] && !state.layers[5]) {
+        return `
+          <section class="q-wrap">
+            <p class="q-text">${t.q4}</p>
+            <div style="width:100%;max-width:320px;margin:0 auto 20px">
+              <textarea id="openQuestion" class="input-field" rows="3" placeholder="${t.q4ph}" style="font-size:16px;text-align:left;padding:14px 16px;resize:none;line-height:1.6"></textarea>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center">
+              <button class="btn-gold" onclick="answerQuestion()">${t.q4cta}</button>
+            </div>
+          </section>
+        `;
+      }
+
+      return "";
+    }
+
+    function renderCh2Preview(t) {
+      return `
+        <section class="ch2-preview">
+          <div class="ch2-header">
+            <p class="ch2-title">${t.ch2head}</p>
+            <p style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:var(--text);line-height:1.4;margin-bottom:8px">${t.ch2title}</p>
+            <p style="font-size:13px;color:var(--dim);line-height:1.6">${t.ch2sub}</p>
+          </div>
+
+          <div class="ch2-cards">
+            ${CH2_ICONS.map((item, i) => {
+              const isLocked = !state.unlocked && i > 0;
+              const value = state.ch2data ? state.ch2data[item.key] : null;
+              const label = state.lang === "es" ? item.labelEs : item.labelEn;
+              return `
+                <div style="position:relative">
+                  <div class="ch2-card ${isLocked && !state.ch2data ? "locked" : ""}">
+                    <span class="ch2-card-icon">${item.icon}</span>
+                    <div class="ch2-card-info">
+                      <p class="ch2-card-label">${label}</p>
+                      <p class="ch2-card-value">${state.ch2loading ? "…" : value || (isLocked ? "████████████" : "…")}</p>
+                    </div>
+                  </div>
+                  ${isLocked && !state.ch2data ? `<div class="ch2-lock-overlay"><span>◈</span></div>` : ""}
+                </div>
+              `;
+            }).join("")}
+          </div>
+        </section>
+      `;
+    }
+
+    function renderGate(t) {
+      return `
+        <section class="gate">
+          <p class="gate-title">${t.gateTxt}</p>
+          <p class="gate-body">${t.gateBody}</p>
+          <button class="btn-gold" onclick="unlockFullStory()" style="animation:goldPulse 3s ease-in-out infinite">
+            ${t.gateCta}
+          </button>
+          <p class="gate-price">${t.gateP}</p>
+          <p style="margin:12px auto 0;font-size:11px;color:var(--dim);line-height:1.5;max-width:320px;text-align:center">${t.disclaimer}</p>
+          <p style="margin:6px auto 0;font-size:10px;color:#5A5145;line-height:1.4;max-width:300px;text-align:center">${t.privacy}</p>
+        </section>
+      `;
+    }
+
+    function renderFullChapterTwo() {
+      const lang = state.lang;
+      const items = [
+        {
+          key:"music",
+          icon:"🎵",
+          titleEs:"El sonido del mundo cuando llegaste",
+          titleEn:"The sound of the world when you arrived",
+          textEs:"Mientras llegabas al mundo, no llegaste en silencio. Había música sonando en radios, casas, carros y memorias.",
+          textEn:"As you arrived, you didn’t arrive in silence. Music was playing through radios, homes, cars, and memories.",
+          songs:[
+            { title:"Song 1", artist:"Artist 1", format:"Cassette / CD / Vinyl" },
+            { title:"Song 2", artist:"Artist 2", format:"Cassette / CD / Vinyl" },
+            { title:"Song 3", artist:"Artist 3", format:"Cassette / CD / Vinyl" },
+            { title:"Song 4", artist:"Artist 4", format:"Cassette / CD / Vinyl" },
+            { title:"Song 5", artist:"Artist 5", format:"Cassette / CD / Vinyl" }
+          ],
+          value:"Top 5 musical snapshot"
+        },
+        {
+          icon:"📺",
+          titleEs:"Lo que la gente veía",
+          titleEn:"What people were watching",
+          textEs:"En las salas y conversaciones, algo capturaba la atención de millones.",
+          textEn:"In living rooms and conversations, something was capturing millions of eyes.",
+          value:"Coming soon"
+        },
+        {
+          icon:"🏛️",
+          titleEs:"Quién lideraba tu país",
+          titleEn:"Who was leading your country",
+          textEs:"El país que te recibió tenía una voz, un liderazgo y una dirección.",
+          textEn:"The country that welcomed you had a voice, a leadership, and a direction.",
+          value:"Coming soon"
+        },
+        {
+          icon:"📰",
+          titleEs:"El titular de esos días",
+          titleEn:"The headline of those days",
+          textEs:"Mientras tu familia vivía tu llegada, el mundo hablaba de otra historia.",
+          textEn:"While your family welcomed you, the world was talking about another story.",
+          value:"Coming soon"
+        },
+        {
+          icon:"💰",
+          titleEs:"Lo que costaba vivir",
+          titleEn:"What life used to cost",
+          textEs:"El mundo tenía otro precio, otro ritmo y otra forma de vivir.",
+          textEn:"The world had another price, another rhythm, and another way of living.",
+          value:"Coming soon"
+        }
+      ];
+
+      return `
+        <section class="ch2-preview" style="margin-top:40px">
+          <div class="ch2-header">
+            <p class="ch2-title">${lang === "es" ? "CAPÍTULO II · EL MUNDO QUE TE RECIBIÓ" : "CHAPTER II · THE WORLD THAT WELCOMED YOU"}</p>
+            <p style="font-family:'Cormorant Garamond',serif;font-size:24px;font-style:italic;color:var(--text);line-height:1.4;margin-bottom:8px">
+              ${lang === "es" ? "Mientras tú llegabas, el mundo también estaba contando una historia." : "As you arrived, the world was telling its own story."}
+            </p>
+          </div>
+
+          ${items.map((item, i) => `
+            <div class="ch2-card" style="margin-bottom:14px">
+              <span class="ch2-card-icon">${item.icon}</span>
+              <div class="ch2-card-info">
+                <p class="ch2-card-label">${lang === "es" ? item.titleEs : item.titleEn}</p>
+                <p style="color:var(--muted);font-size:14px;line-height:1.6">${lang === "es" ? item.textEs : item.textEn}</p>
+                ${item.key === "music" && item.songs ? `
+                  <div style="margin-top:14px">
+                    <p style="color:var(--gold-soft);font-size:13px;line-height:1.6;margin-bottom:14px;text-align:left">
+                      ${lang === "es"
+                        ? "Mientras llegabas al mundo, no llegaste en silencio. Estas canciones dominaban radios, calles y hogares. Este era el sonido de la época en la que comenzaste tu historia."
+                        : "As you arrived, you didn’t arrive in silence. These songs filled radios, streets, and homes. This was the sound of the era your story began in."}
+                    </p>
+                    <p style="color:var(--gold-soft);font-size:13px;margin-bottom:10px;letter-spacing:.08em">🎧 TOP 5</p>
+                    ${item.songs.map((song, idx) => `
+                      <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;padding:10px;background:rgba(255,255,255,.03);border:1px solid rgba(201,169,110,.18)">
+                        <div style="width:42px;height:42px;background:#2A241C;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:12px">${idx + 1}</div>
+                        <div style="text-align:left">
+                          <p style="color:var(--text);font-size:13px;margin:0">${song.title}</p>
+                          <p style="color:var(--muted);font-size:11px;margin:0">${song.artist} · ${song.format}</p>
+                        </div>
+                      </div>
+                    `).join("")}
+                  </div>
+                ` : `<p class="ch2-card-value">${item.value}</p>`}
+              </div>
+            </div>
+          `).join("")}
+
+          <div class="gate" style="margin-top:28px">
+            <p class="gate-title">${lang === "es" ? "Ese era el mundo. Y en medio de todo eso… llegaste tú." : "That was the world. And in the middle of it… you arrived."}</p>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderChapters(t) {
+      return `
+        <section class="chapters-wrap">
+          <p class="chapters-title">${t.ctitle}</p>
+          ${t.chapters.map(c => `
+            <div class="ch-card ${c.active ? "active" : ""} ${c.locked ? "locked" : ""}">
+              <span class="ch-num">${c.num}</span>
+              <div class="ch-info">
+                <p class="ch-name">${c.name}</p>
+                <p class="ch-desc">${c.desc}</p>
+              </div>
+              ${c.locked ? `<span class="ch-lock">◈</span>` : ""}
+            </div>
+          `).join("")}
+        </section>
+      `;
+    }
+
+    function render() {
+      if (!state.lang) {
+        $app.innerHTML = renderLanguage();
+      } else if (state.screen === "welcome") {
+        $app.innerHTML = renderWelcome();
+      } else if (state.screen === "input") {
+        $app.innerHTML = renderInput();
+      } else if (state.screen === "story") {
+        $app.innerHTML = renderStory();
+      }
+
+      setTimeout(typewriterMount, 20);
+    }
+
+    /* ─── RESTORE PAID STATE ─────────────────────────────────────────────── */
+    function restoreState() {
+      try {
+        const paid = localStorage.getItem("b2m_paid");
+        const savedLang = localStorage.getItem("b2m_lang");
+        const savedDob = localStorage.getItem("b2m_dob");
+        const savedCity = localStorage.getItem("b2m_city") || "";
+        if (paid === "true" && savedLang && savedDob) {
+          state.lang = savedLang;
+          state.dob = savedDob;
+          state.city = savedCity;
+          state.screen = "story";
+          state.unlocked = true;
+          state.gen = getGen(new Date(savedDob + "T12:00:00").getFullYear(), savedLang);
+          state.layers[1] = savedLang === "es"
+            ? `# Tu historia continúa\nTu acceso está activo. Vuelve a reconstruir tu historia o entra a tu época desbloqueada.`
+            : `# Your story continues\nYour access is active. Rebuild your story or enter your unlocked era.`;
+          state.activeL = 1;
+        }
+      } catch (e) {}
+    }
+
+    makeStars();
+    restoreState();
+    render();
+  </script>
+</body>
+</html>
